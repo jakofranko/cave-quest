@@ -1,5 +1,5 @@
 {
-  "name": "hero",
+  "name": "cave-quest",
   "version": "1.0.0",
   "description": "A JavaScript roguelike",
   "main": "index.html",
@@ -8,19 +8,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jakofranko/hero.git"
+    "url": "https://github.com/jakofranko/cave-quest.git"
   },
   "keywords": [
     "roguelike",
     "rotjs",
-    "hero"
+    "cave",
+    "quest"
   ],
   "author": "Jake Franklin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jakofranko/hero/issues"
+    "url": "https://github.com/jakofranko/cave-quest/issues"
   },
-  "homepage": "https://github.com/jakofranko/hero",
+  "homepage": "https://github.com/jakofranko/cave-quest",
   "dependencies": {
     "bower": "^1.6.5"
   }

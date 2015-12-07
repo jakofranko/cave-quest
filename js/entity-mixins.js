@@ -383,7 +383,7 @@ Game.EntityMixins.InventoryHolder = {
 
         // If the item is in a stack, decrement the stack amount
         if(this._items[i].hasMixin('Stackable') && this._items[i].amount() > 1) {
-            this._items[i].removeFromStack();
+            this._items[i].removeFromStack(amount);
         } else {
             // Simply clear the inventory slot.
             this._items[i] = null;    
