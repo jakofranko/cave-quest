@@ -146,7 +146,8 @@ Game.EntityMixins.Equipper = {
         item.wield();
     },
     unwield: function() {
-        this._weapon.unwield();
+        if(this._weapon)
+            this._weapon.unwield();
         this._weapon = null;
     },
     wear: function(item) {
@@ -154,7 +155,8 @@ Game.EntityMixins.Equipper = {
         item.wear();
     },
     takeOff: function() {
-        this._armor.takeOff();
+        if(this._armor)
+            this._armor.takeOff();
         this._armor = null;
     },
     getWeapon: function() {
@@ -424,10 +426,14 @@ Game.EntityMixins.InventoryHolder = {
     dropItem: function(i) {
         // Drops an item to the current map tile
         if (this._items[i]) {
+            var amount = 0;
+            if(this._items[i].hasMixin('Stackable')) {
+                amount = this._item[i].amount();
+            }
             if (this._map) {
                 this._map.addItem(this.getX(), this.getY(), this.getZ(), this._items[i]);
             }
-            this.removeItem(i);      
+            this.removeItem(i, amount);      
         }
     }
 };
@@ -671,13 +677,15 @@ Game.EntityMixins.Thrower = {
                 entity.takeDamage(this, damage);
             }
             
-            var amount = 0;
             if(item.hasMixin('Stackable')) {
-                amount = Math.min(1, item.amount() - 1);
+                // It's actually easer to just create a new object at the location because of weird pass-by-reference stuff that javascript does.
+                var newItem = Game.ItemRepository.create(item.describe());
+                this.getMap().addItem(target.x, target.y, this.getZ(), newItem);
+            } else {
+                this.getMap().addItem(target.x, target.y, this.getZ(), item);
             }
 
-            this.getMap().addItem(target.x, target.y, this.getZ(), item);
-            this.removeItem(i, amount);
+            this.removeItem(i);
         }
     }
 }
