@@ -8,9 +8,12 @@ Game.Screen.startScreen = {
 	enter: function() { console.log('Entered teh start screen'); },
 	exit: function() { console.log('Exited the start screen'); },
 	render: function(display) {
+        var w = Game.getScreenWidth();
+        var h = Game.getScreenHeight();
 		// Render prompt to the screen
-		display.drawText(1, 1, "%c{yellow}Javascript Roguelike");
-		display.drawText(1, 2, "Press [Enter] to start!");
+        display.drawText((w/2) - 17, 5, "%c{yellow}Cave-Quest%c{white}, a JavaScript Roguelike");
+		display.drawText((w/2) - 15, 6, "Press [?] at any time for help");
+		display.drawText((w/2) - 12, 8, "Press [Enter] to start!");
 	},
 	handleInput: function(inputType, inputData) {
 		// When [Enter] is pressed, go to the play screen
@@ -740,14 +743,17 @@ Game.Screen.throwTargetScreen = new Game.Screen.TargetBasedScreen({
 // Define our help screen
 Game.Screen.helpScreen = {
     render: function(display) {
-        var text = 'jsrogue help';
-        var border = '-------------';
+        var text = 'Cave-Quest Help';
+        var border = '---------------';
         var y = 0;
         display.drawText(Game.getScreenWidth() / 2 - text.length / 2, y++, text);
         display.drawText(Game.getScreenWidth() / 2 - text.length / 2, y++, border);
         display.drawText(0, y++, 'The villagers have been complaining of a terrible stench coming from the cave.');
         display.drawText(0, y++, 'Find the source of this smell and get rid of it!');
         y += 3;
+        display.drawText(0, y++, 'Arrow keys to move');
+        display.drawText(0, y++, '[<] to go up stairs');
+        display.drawText(0, y++, '[>] to go down stairs');
         display.drawText(0, y++, '[,] to pick up items');
         display.drawText(0, y++, '[d] to drop items');
         display.drawText(0, y++, '[e] to eat items');
