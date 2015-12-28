@@ -89,6 +89,25 @@ Game.EntityRepository.define('kobold', {
     ]
 });
 
+Game.EntityRepository.define('goblin', {
+    name: 'goblin',
+    character: 'g',
+    foreground: 'limegreen',
+    maxHp: 10,
+    attackValue: 6,
+    sightRadius: 8,
+    tasks: ['hunt', 'wander'],
+    mixins: [
+        Game.EntityMixins.TaskActor, 
+        Game.EntityMixins.Sight,
+        Game.EntityMixins.Attacker, 
+        Game.EntityMixins.Destructible,
+        Game.EntityMixins.CorpseDropper, 
+        Game.EntityMixins.ExperienceGainer, 
+        Game.EntityMixins.RandomStatGainer
+    ]
+});
+
 Game.EntityRepository.define('giant zombie', {
     name: 'giant zombie', 
     character: 'Z',

@@ -39,6 +39,16 @@ Game.ItemRepository.define('corpse', {
 });
 
 // Weapons
+Game.ItemRepository.define('throwing dagger', {
+    name: 'throwing dagger',
+    character: ')',
+    foreground: 'lightgray',
+    attackValue: 3,
+    wieldable: true,
+    throwable: true,
+    stackable: true,
+    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.Throwable, Game.ItemMixins.Stackable]
+});
 Game.ItemRepository.define('dagger', {
     name: 'dagger',
     character: ')',
