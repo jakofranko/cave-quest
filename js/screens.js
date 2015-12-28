@@ -653,7 +653,7 @@ Game.Screen.TargetBasedScreen.prototype.render = function(display) {
 
     // Render the caption at the bottom.
     display.drawText(0, Game.getScreenHeight() - 1, 
-        this._captionFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY));
+        this._captionFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY, points));
 };
 
 Game.Screen.TargetBasedScreen.prototype.handleInput = function(inputType, inputData) {
@@ -734,6 +734,20 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     }
 });
 Game.Screen.throwTargetScreen = new Game.Screen.TargetBasedScreen({
+    captionFunction: function(x, y, points) {
+        var throwing = this._player.getItems()[this._player.getThrowing()];
+        var throwingSkill = this._player.getThrowingSkill();
+        var entity = this._player.getMap().getEntityAt(x, y, this._player.getZ());
+        console.log(entity);
+        var string = String.format("You are throwing %s", throwing.describeA());
+        if(entity) {
+            string += String.format(" at %s", entity.describeA());
+        }
+        if(points.length > throwingSkill) {
+            string += " - Might not do as much damage at this range"
+        }
+        return string;
+    },
     okFunction: function(x, y) {
         this._player.throwItem(this._player.getThrowing(), x, y);
         return true;
@@ -758,7 +772,7 @@ Game.Screen.helpScreen = {
         display.drawText(0, y++, '[d] to drop items');
         display.drawText(0, y++, '[e] to eat items');
         display.drawText(0, y++, '[w] to wield items');
-        display.drawText(0, y++, '[W] to wield items');
+        display.drawText(0, y++, '[W] to wear items');
         display.drawText(0, y++, '[t] to throw items');
         display.drawText(0, y++, '[x] to examine items');
         display.drawText(0, y++, '[;] to look around you');

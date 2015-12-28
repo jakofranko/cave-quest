@@ -666,12 +666,20 @@ Game.EntityMixins.Thrower = {
         return {x: end.x, y: end.y, distance: linePoints.length};
     },
     throwItem: function(i, targetX, targetY) {
+        // Select the item to be thrown by its index
         var item = this._items[i];
         if(item.isThrowable()) {
+            // Check to see if there is a destructible entity at targetX and targetY
             var target = this._getTarget(targetX, targetY);
             var entity = this.getMap().getEntityAt(target.x, target.y, this.getZ());
             if(entity && entity.hasMixin('Destructible')) {
-                var damage = Math.max(0, item.getAttackValue() + this.getThrowingSkill() - Math.floor(target.distance / 3));
+                // Entity has been found, calculate damage!
+                var attack = this.getThrowingSkill() + item.getAttackValue();
+                var defense = entity.getDefenseValue();
+                // The distance penalty will decrease as the skill increases
+                var distancePenalty = Math.floor(target.distance / this.getThrowingSkill());
+                var max = Math.max(0, attack - defense - distancePenalty);
+                var damage = 1 + Math.floor(Math.random() * max);
                 Game.sendMessage(this, "You throw %s at %s!", [item.describeA(), entity.describeThe()]);
                 Game.sendMessage(entity, "%s throws %s at you!", [this.describeThe(), item.describeA()]);
                 entity.takeDamage(this, damage);
