@@ -448,6 +448,9 @@ Game.EntityMixins.MessageRecipient = {
     getMessages: function() {
         return this._messages;
     },
+    clearMessage: function(i) {
+        this._messages.splice(i, 1);
+    },
     clearMessages: function() {
         this._messages = [];
     }
@@ -680,9 +683,11 @@ Game.EntityMixins.Thrower = {
                 var distancePenalty = Math.floor(target.distance / this.getThrowingSkill());
                 var max = Math.max(0, attack - defense - distancePenalty);
                 var damage = 1 + Math.floor(Math.random() * max);
-                Game.sendMessage(this, "You throw %s at %s!", [item.describeA(), entity.describeThe()]);
+                Game.sendMessage(this, "You throw %s at %s for %s damage!", [item.describeA(), entity.describeThe(), damage]);
                 Game.sendMessage(entity, "%s throws %s at you!", [this.describeThe(), item.describeA()]);
                 entity.takeDamage(this, damage);
+            } else {
+                Game.sendMessage(this, "You throw %s!", [item.describeA()]);
             }
             
             if(item.hasMixin('Stackable')) {

@@ -611,7 +611,6 @@ Game.Screen.TargetBasedScreen = function(template) {
         }
     }
 };
-
 Game.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, offsetX, offsetY) {
     this._player = player;
     // Store original position. Subtract the offset to make life easy so we don't
@@ -634,7 +633,6 @@ Game.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY,
         });
     this._visibleCells = visibleCells;
 };
-
 Game.Screen.TargetBasedScreen.prototype.render = function(display) {
     Game.Screen.playScreen.renderTiles.call(Game.Screen.playScreen, display);
 
@@ -652,37 +650,40 @@ Game.Screen.TargetBasedScreen.prototype.render = function(display) {
     }
 
     // Render the caption at the bottom.
-    display.drawText(0, Game.getScreenHeight() - 1, 
-        this._captionFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY, points));
+    display.drawText(
+        0,
+        Game.getScreenHeight(),
+        this._captionFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY, points)
+    );
 };
-
 Game.Screen.TargetBasedScreen.prototype.handleInput = function(inputType, inputData) {
     // Move the cursor
     if (inputType == 'keydown') {
         if (inputData.keyCode === ROT.VK_LEFT) {
             this.moveCursor(-1, 0);
+            Game.refresh();
         } else if (inputData.keyCode === ROT.VK_RIGHT) {
             this.moveCursor(1, 0);
+            Game.refresh();
         } else if (inputData.keyCode === ROT.VK_UP) {
             this.moveCursor(0, -1);
+            Game.refresh();
         } else if (inputData.keyCode === ROT.VK_DOWN) {
             this.moveCursor(0, 1);
+            Game.refresh();
         } else if (inputData.keyCode === ROT.VK_ESCAPE) {
             Game.Screen.playScreen.setSubScreen(undefined);
         } else if (inputData.keyCode === ROT.VK_RETURN) {
             this.executeOkFunction();
         }
     }
-    Game.refresh();
 };
-
 Game.Screen.TargetBasedScreen.prototype.moveCursor = function(dx, dy) {
     // Make sure we stay within bounds.
     this._cursorX = Math.max(0, Math.min(this._cursorX + dx, Game.getScreenWidth()));
     // We have to save the last line for the caption.
     this._cursorY = Math.max(0, Math.min(this._cursorY + dy, Game.getScreenHeight() - 1));
 };
-
 Game.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
     // Switch back to the play screen.
     Game.Screen.playScreen.setSubScreen(undefined);
