@@ -24,22 +24,24 @@ Game.Builder = function(width, height, depth) {
     for (var z = 0; z < this._depth; z++) {
         this._setupRegions(z);
     }
+
+    // "Connecting" regions places stairs on each level
     this._connectAllRegions();
 };
 
 // Getters and Setters...
 Game.Builder.prototype.getTiles = function () {
     return this._tiles;
-}
+};
 Game.Builder.prototype.getDepth = function () {
     return this._depth;
-}
+};
 Game.Builder.prototype.getWidth = function () {
     return this._width;
-}
+};
 Game.Builder.prototype.getHeight = function () {
     return this._height;
-}
+};
 
 Game.Builder.prototype._generateLevel = function() {
     // Create the empty map
@@ -71,7 +73,7 @@ Game.Builder.prototype._canFillRegion = function(x, y, z) {
 		return false;
 	}
 	// Make sure the tile does not already have a region
-	if(this._regions[z][x][y] != 0) {
+	if(this._regions[z][x][y] !== 0) {
 		return false;
 	}
 	// Make sure this tile is walkable
@@ -111,8 +113,8 @@ Game.Builder.prototype._removeRegion = function(region, z) {
 				this._regions[z][x][y] = 0;
 				this._tiles[z][x][y] = Game.Tile.wallTile;
 			}
-		};
-	};
+		}
+	}
 };
 Game.Builder.prototype._setupRegions = function(z) {
 	var region = 1;
@@ -131,8 +133,8 @@ Game.Builder.prototype._setupRegions = function(z) {
 					region++;
 				}
 			}
-		};
-	};
+		}
+	}
 };
 
 // This fetches a list of points that overlap between one
@@ -151,8 +153,8 @@ Game.Builder.prototype._findRegionOverlaps = function(z, r1, r2) {
     			this._regions[z+1][x][y] == r2) {
     			matches.push({x: x, y: y});
     		}
-    	};
-    };
+    	}
+    }
     // shuffle matches to prevent bias
 	return matches;
 };
@@ -162,7 +164,7 @@ Game.Builder.prototype._findRegionOverlaps = function(z, r1, r2) {
 Game.Builder.prototype._connectRegions = function(z, r1, r2) {
     var overlap = this._findRegionOverlaps(z, r1, r2);
     // Make sure there was overlap
-    if (overlap.length == 0) {
+    if (overlap.length === 0) {
         return false;
     }
     // Select the first tile from the overlap and change it to stairs

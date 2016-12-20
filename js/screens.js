@@ -21,7 +21,7 @@ Game.Screen.startScreen = {
 			Game.switchScreen(Game.Screen.playScreen);
 		}
 	}
-}
+};
 
 // Define our playing screen
 Game.Screen.playScreen = {
